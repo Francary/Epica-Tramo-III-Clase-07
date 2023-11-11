@@ -4,7 +4,8 @@ import morgan from "morgan";
 
 import { config } from "./src/settings/config.js";
 import { startConnection } from "./src/settings/database.js";
-import { userRouter } from "./src/routers/user.router.js";
+import { userRouter } from "./src/routers/user.routes.js";
+import { taskRouter } from "./src/routers/task.routes.js";
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(cors());
 app.use(morgan("dev"));
 
 app.use("/users", userRouter);
+app.use("/tasks", taskRouter);
 
 app.listen(config.port, async () => {
   await startConnection();

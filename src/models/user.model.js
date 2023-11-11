@@ -1,7 +1,7 @@
-import { Schema, model } from "mongoose";
+import { Schema, Types, model } from "mongoose";
 
 const userSchema = new Schema({
-  username: {
+  name: {
     type: String,
     required: true,
   },
@@ -14,6 +14,12 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  tasks:[
+    {   type: Types.ObjectId,
+        ref: "Task",
+    }
+  ],
 });
 
-export const UserModel = model("User", userSchema);
+ const UserModel = model("User", userSchema);
+ export{UserModel}

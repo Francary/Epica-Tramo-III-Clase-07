@@ -1,3 +1,4 @@
+import { text } from "express";
 import { UserModel } from "../models/user.model.js";
 
 export const ctrlCreateNewUser = async (req, res) => {
@@ -17,7 +18,13 @@ export const ctrlCreateNewUser = async (req, res) => {
 
 export const ctrlListUsers = async (req, res) => {
   try {
-    const allUsers = await UserModel.find({}, ["-__v"]);
+    const allUsers = (await UserModel.find({}, ["-__v"])
+    .populate(
+      "tasks",[      
+        "text",
+        "done",
+    ]
+    ));
 
     res.status(200).json(allUsers);
   } catch (error) {
@@ -30,7 +37,13 @@ export const ctrlFindOneUser = async (req, res) => {
   const { userId } = req.params;
 
   try {
-    const user = await UserModel.findOne({ _id: userId });
+    const user = await UserModel.findOne({ _id: userId })
+    .populate(
+      "tasks",[      
+        "text",
+        "done",
+    ]
+    );
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
